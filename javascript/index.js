@@ -136,7 +136,6 @@ async function makeBrusselsSprouts() {
     document.querySelector(
       "#brusselsSprouts"
     ).innerHTML += `<li>${brusselsSproutFirstStep}</li>`;
-    document.querySelector("#brusselsSproutsImg").removeAttribute("hidden");
 
     const brusselsSproutSecondStep = await obtainInstruction(
       "brusselsSprouts",
@@ -193,6 +192,8 @@ async function makeBrusselsSprouts() {
     document.querySelector(
       "#brusselsSprouts"
     ).innerHTML += `<li>${brusselsSproutEigthStep}</li>`;
+
+    document.querySelector("#brusselsSproutsImg").removeAttribute("hidden");
   } catch (error) {
     console.log(error);
   }
@@ -205,3 +206,32 @@ makeBrusselsSprouts();
 
 // Bonus 2 - Promise all
 // ...
+
+async function makeBroccoli() {
+  const stepsPromises = [];
+
+  broccoli.forEach((steps, currentIndex) => {
+    stepsPromises.push(obtainInstruction("broccoli", currentIndex));
+
+    // console.log("This is steps:", steps);
+    // console.log("This is the array push:", stepsPromises[currentIndex]);
+  });
+
+  // Pizza Array = [step1, step2 , blala] <= stepsPromises Array [Promise("fulfilled", "value: step1"),Promise2("fulfilled", "value: step1") ]
+
+  // Promise.all([obtainInstruction("steak", 0), obtainInstruction("broccoli", 1)])
+  //   .then((values) => {
+  //     console.log(values);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+
+  const broccoliValueArray = await Promise.all(stepsPromises);
+  broccoliValueArray.forEach((steps) => {
+    document.querySelector("#broccoli").innerHTML += `<li>${steps}</li>`;
+  });
+  document.querySelector("#broccoliImg").removeAttribute("hidden");
+}
+
+makeBroccoli();
